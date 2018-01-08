@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<style>
+		html {
+			font-family: 'Arial';
+			font-size: 20px;
+		}
+		h1 {
+			margin: 0 0 12px 0;
+		}
+		button {
+			font-size: 18px;
+			border-radius: 8px;
+			min-height: 30px;
+			margin: 5px 5px;
+			background: #eee;
+		}
+		button:first-child {
+			margin-left: 0;
+		}
+		.root {
+			margin: 20px;
+			padding: 20px;
+			border: 2px solid green;
+			color: green;
+			border-radius: 8px;
+		}
+		.root > div {
+			margin-bottom: 12px;
+		}
+		.my-component {
+			display: block;
+			margin-top: 20px;
+			padding: 20px;
+			border: 2px solid blue;
+			color: blue;
+			border-radius: 8px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app" class="root">
+		<h1>hipoteca</h1>
+
+		<div class="importe"><button @click="decImporte">-</button>{{importe|filtroMoneda}} <button @click="incImporte">+</button></div>
+		<div class="plazo">a <button @click="decPlazo">-</button>{{plazoAnios}} años<button @click="incPlazo">+</button></div>
+		<div class="interes">al {{interesAnual|filtroPorcentaje}} (euribor {{euribor|filtroPorcentaje}} + <button @click="decDiferencial">-</button>{{diferencial|filtroPorcentaje}}<button @click="incDiferencial">+</button>)</div>
+		<div class="interes">al <porcentaje :numero="interesAnual"></porcentaje> (euribor <porcentaje :numero="euribor"></porcentaje> + <button @click="decDiferencial">-</button><porcentaje :numero="diferencial"></porcentaje><button @click="incDiferencial">+</button>)</div>
+		<div class="cuota">
+			resulta en una cuota de <b>{{cuota.total|filtroMoneda}}</b><br>
+			({{cuota.principal|filtroMoneda}} de principal y {{cuota.intereses|filtroMoneda}} de intereses en el primer mes)
+		</div>
+	</div>
+
+	<script src="./vue.js"></script>
+	<script>
+
+		// Vue.config.performance = true;
+
+		Vue.component('Porcentaje', {
+			props: ['numero'],
+			template: '<span>{{porcentaje}}%</span>',
+			computed: {
+				porcentaje() {
+					console.log('calculando formato porcentaje')
+					return (this.numero * 100).toFixed(3);
+				},
+			},
+		});
+
+		var vm = new Vue({
+			el: '#app',
+			data: () => {
+				return {
+					importe: 320000,
+					plazoMeses: 30 * 12,
+					euribor: -0.185 / 100.0,
+					diferencial: 1.20 / 100.0
+				};
+			},
+			computed: {
+				plazoAnios() {
+					return this.plazoMeses / 12.0;
+				},
+				cuota() {
+					const interesMensual = Math.pow(1+this.interesAnual, 1/12)-1.0;
+					const total = this.importe * (interesMensual * Math.pow(1+interesMensual, this.plazoMeses)) / (Math.pow(1+interesMensual, this.plazoMeses) - 1);
+					const intereses = this.importe * interesMensual;
+					const principal = total - intereses;
+					return {
+						total,
+						principal,
+						intereses
+					}
+				},
+				interesAnual() {
+					return this.euribor + this.diferencial;
+				},
+			},
+			methods: {
+				incImporte() { this.importe += 10000; },
+				decImporte() { this.importe -= 10000; },
+				incPlazo() { this.plazoMeses += 12; },
+				decPlazo() { this.plazoMeses -= 12; },
+				incDiferencial() { this.diferencial += 0.1 / 100; },
+				decDiferencial() { this.diferencial -= 0.1 / 100; },
+			},
+			filters: {
+				filtroPorcentaje: (numero) => {
+					console.log('aplicando filtro porcentaje');
+					return (numero * 100).toFixed(3) + '%';
+				},
+				filtroMoneda: (numero, moneda='€') => {
+					console.log('aplicando filtro moneda');
+					numero = numero.toFixed(2).toString();
+					[euros, decimales] = numero.split('.');
+					return `${euros.replace(/\B(?=(\d{3})+(?!\d))/g, ".")},${decimales}${moneda}`;
+				},
+			}
+		});
+		
+	</script>
+</body>
+</html>
