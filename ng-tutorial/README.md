@@ -1,3 +1,12 @@
+
+
+
+
+voy por aquí: https://angular.io/tutorial/toh-pt6#update-heroes
+
+
+
+
 # NgTutorial
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
