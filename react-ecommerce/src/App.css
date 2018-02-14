@@ -1,0 +1,28 @@
+.app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 1200px;
+  background: #eee;
+  border-right: 20px solid #40cfff;
+}
+
+h1 {
+  padding: 0;
+  margin: 10px 0;
+}
+
+input {
+  font-size: 14px;
+}
+
+.products {
+  margin: 10px -12px;
+}
+
+a {
+  color: #42b983;
+}

@@ -5,16 +5,19 @@ class App extends React.Component {
 			greeting: 'World',
 			counter: 0,
 			unrelated: 0,
-		}
+		};
 		window.globalApp = this;
     }
     increment() {
     	console.log('incrementing');
-		this.setState({counter: this.state.counter + 1});
-		// this.state.counter = this.state.counter + 1;
+		console.log('counter before setState()', this.state.counter);
+		this.setState((prevState) => ({counter: prevState.counter + 1}));
+		// this.state.counter = this.state.counter + 1; // MAL -> React no se entera del cambio
+		// this.setState({counter: this.state.counter + 1});  // TAMBIEN MAL -> asumes que state es el que debe ser
+		console.log('counter after setState()', this.state.counter);
 	}
 	incrementUnrelated() {
-		this.setState({unrelated: this.state.unrelated + 100});
+		this.setState((prevState) => ({unrelated: prevState.unrelated + 100}));
 	}
 	render() {
 		console.log('rendering');

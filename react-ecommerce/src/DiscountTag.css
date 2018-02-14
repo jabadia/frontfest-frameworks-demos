@@ -1,0 +1,12 @@
+.discount-tag {
+  position: absolute;
+  right: 0px;
+
+  transform: rotate(30deg);
+
+  background: purple;
+  color: white;
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
