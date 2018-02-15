@@ -64,6 +64,10 @@
 </script>
 
 
+
+
+
+
 <script src="./node_modules/angular/angular.js"></script>
 <script>
 
@@ -75,6 +79,9 @@
 
   var app = angular.module('MyApp', []);
 
+  //
+  // directive productCard
+  //
   app.directive('productCard', function () {
     return {
       restrict: 'E',
@@ -85,25 +92,32 @@
       },
       templateUrl: 'productCard.html',
       link: function (scope) {
+
         scope.finalPrice = 0;
+
         scope.$watchGroup(['product.discount', 'product.price', 'overallDiscount'], function () {
           var effectiveDiscount = scope.product.discount + scope.overallDiscount;
           scope.finalPrice = scope.product.price * (1 - effectiveDiscount);
           console.log('calculating finalPrice for', scope.product.name);
         });
+
         scope.isDiscounted = function (product) {
           return product.discount !== 0 || scope.overallDiscount !== 0;
         };
+
         scope.trace = function (s) {
           console.log('evaluating ProductCard', s);
           return s;
         };
-      },
+
+      },  // end of link()
     };
   });
 
 
-
+  //
+  // directive price
+  //
   app.directive('price', function () {
     return {
       restrict: 'E',
@@ -112,6 +126,7 @@
       },
       templateUrl: 'price.html',
       link: function (scope) {
+
         scope.$watch('price', function () {
           scope.formattedPrice = scope.price.toLocaleString('es-ES', {
             style: 'currency',
@@ -119,16 +134,20 @@
             currencyDisplay: 'symbol',
           });
         });
+
         scope.trace = function (s) {
           console.log('evaluating Price', s);
           return s;
         };
-      },
+
+      }, // end of link()
     };
   });
 
 
-
+  //
+  // directive discountTag
+  //
   app.directive('discountTag', function () {
     return {
       restrict: 'E',
@@ -137,30 +156,35 @@
       },
       templateUrl: 'discountTag.html',
       link: function (scope) {
+
         scope.trace = function (s) {
           console.log('evaluating DiscountTag', s);
           return s;
         };
-      },
+
+      }, // end of link()
     };
   });
 
 
-
+  //
+  // controller MainCtrl
+  //
   app.controller('MainCtrl', function ($scope) {
 
     $scope.overallDiscount = 0;
     $scope.products = [
-      {name: 'XMax X10 2018', brand: 'Salomon', price: 720.0, discount: 0, img: 'statics/ski-atomic-rojo.png'},
-      {name: 'Magnum', brand: 'Head', price: 650.0, discount: 0.2, img: 'statics/ski-head-verde.png'},
-      {name: 'Amphibio XII', brand: 'Elan', price: 1250.0, discount: 0.15, img: 'statics/ski-elan-amphibio.png'},
-      {name: 'Vector Edge', brand: 'Salomon', price: 350.0, discount: 0.50, img: 'statics/bota-salomon-amarillo.png'},
-      {name: 'Fogbreaker', brand: 'CrazyCreek', price: 35.0, discount: 0.0, img: 'statics/gafas-verde.png'},
+      {name: 'XMax X10 2018', brand: 'Salomon',    price:  720.0, discount: 0,    img: 'statics/ski-atomic-rojo.png'      },
+      {name: 'Magnum',        brand: 'Head',       price:  650.0, discount: 0.2,  img: 'statics/ski-head-verde.png'       },
+      {name: 'Amphibio XII',  brand: 'Elan',       price: 1250.0, discount: 0.15, img: 'statics/ski-elan-amphibio.png'    },
+      {name: 'Vector Edge',   brand: 'Salomon',    price:  350.0, discount: 0.50, img: 'statics/bota-salomon-amarillo.png'},
+      {name: 'Fogbreaker',    brand: 'CrazyCreek', price:   35.0, discount: 0.0,  img: 'statics/gafas-verde.png'          },
     ];
 
     $scope.addToCart = function (product) {
       alert(`added ${product.name}`);
     };
+
   });
 
 

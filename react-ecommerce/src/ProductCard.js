@@ -5,6 +5,7 @@ import Price from './Price';
 import DiscountTag from './DiscountTag';
 
 export default class ProductCard extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {};
