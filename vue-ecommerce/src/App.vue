@@ -2,13 +2,13 @@
   <div id="app">
     <h1>Products</h1>
     <div>
-      Overall Discount: <input type="number" min="0" max="100" step=5 v-model="overallDiscount"/> %
+      Additional Discount: <input type="number" min="0" max="100" step=5 v-model="additionalDiscount"/> %
     </div>
     <div class="products">
       <product-card
         v-for="product in products"
         :product="product"
-        :overall-discount="overallDiscount / 100"
+        :additional-discount="additionalDiscount / 100"
         :key="product.name"
       />
     </div>
@@ -22,7 +22,7 @@
     name: 'app',
     data() {
       return {
-        overallDiscount: 0,
+        additionalDiscount: 0,
         products: [
           {name: 'XMax X10 2018', brand: 'Salomon',    price:  720.0, discount: 0,    img: 'statics/ski-atomic-rojo.png'      },
           {name: 'Magnum',        brand: 'Head',       price:  650.0, discount: 0.2,  img: 'statics/ski-head-verde.png'       },

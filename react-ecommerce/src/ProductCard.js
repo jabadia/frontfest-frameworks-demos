@@ -17,8 +17,8 @@ export default class ProductCard extends React.Component {
 
   render() {
     const product = this.props.product;
-    const isDiscounted = product.discount !== 0 || this.props.overallDiscount !== 0;
-    const effectiveDiscount = product.discount + this.props.overallDiscount;
+    const isDiscounted = product.discount !== 0 || this.props.additionalDiscount !== 0;
+    const effectiveDiscount = product.discount + this.props.additionalDiscount;
     const finalPrice = product.price * (1 - effectiveDiscount);
 
     console.log('rendering ProductCard', product.name);

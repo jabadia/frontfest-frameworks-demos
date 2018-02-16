@@ -27,20 +27,20 @@
   export default {
     props: {
       product: Object,
-      overallDiscount: Number,
+      additionalDiscount: Number,
     },
     data() {
       return {};
     },
     computed: {
       isDiscounted() {
-        return this.product.discount !== 0 || this.overallDiscount !== 0;
+        return this.product.discount !== 0 || this.additionalDiscount !== 0;
       },
       finalPrice() {
         return this.product.price * (1 - this.effectiveDiscount);
       },
       effectiveDiscount() {
-        return this.product.discount + this.overallDiscount;
+        return this.product.discount + this.additionalDiscount;
       },
     },
     methods: {
